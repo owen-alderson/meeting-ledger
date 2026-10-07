@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "meeting-ledger"
+version = "2.0.0"
+description = "Your meetings, on the record: who decided what, who promised what, and whether it happened. Claude extracts, Jev or Kev checks, you review."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Owen Alderson" }]
+keywords = ["meetings", "action-items", "transcripts", "claude", "jev", "kev", "mcp", "tui", "obsidian"]
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python :: 3",
+    "Topic :: Office/Business",
+]
+dependencies = [
+    "anthropic>=1.11",
+    "typesafe-sdk>=0.7",
+    "system-one-adapter[anthropic]>=0.2",
+    "textual>=8.0",
+]
+
+[project.optional-dependencies]
+audio = ["parakeet-mlx>=0.5; sys_platform == 'darwin' and platform_machine == 'arm64'"]
+mcp = ["mcp>=2.3"]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "mcp>=2.3"]
+
+[project.scripts]
+meeting-ledger = "meeting_ledger.__main__:main"
+mledger = "meeting_ledger.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/owen-alderson/meeting-ledger"
+
+[tool.hatch.build.targets.sdist]
+exclude = ["docs/*.gif", "docs/*.png"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
