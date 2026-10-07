@@ -29,7 +29,8 @@ class LedgerApp(App):
     Screen {{ background: black; }}
     #title {{ height: 1; padding: 0 1; background: {ACCENT}; color: black; text-style: bold; }}
     TabbedContent {{ height: 1fr; }}
-    DataTable {{ background: black; height: 1fr; }}
+    DataTable {{ background: black; height: 1fr; scrollbar-color: #1d5f59; scrollbar-background: #111111;
+                 scrollbar-color-hover: {ACCENT}; scrollbar-color-active: {ACCENT}; }}
     DataTable > .datatable--header {{ background: black; color: {ACCENT}; text-style: bold; }}
     DataTable > .datatable--cursor {{ background: #0d3b37; }}
     #meeting-list {{ width: 46; border-right: solid {ACCENT}; }}
@@ -42,6 +43,8 @@ class LedgerApp(App):
     #review-detail-scroll {{ height: 1fr; }}
     #question {{ background: black; border: solid {ACCENT}; }}
     #status {{ height: 1; padding: 0 1; background: #1c1c1c; color: {ACCENT}; }}
+    Tabs .underline--bar {{ color: {ACCENT}; background: #1f1f1f; }}
+    Tab.-active {{ color: {ACCENT}; text-style: bold; }}
     """
     BINDINGS = [
         Binding("1", "tab('meetings')", "Meetings"),
@@ -97,7 +100,7 @@ class LedgerApp(App):
         self.query_one("#meeting-items", DataTable).add_columns("#", "Kind", "Item", "Owner", "Due", "Status", "Lines")
         self.query_one("#transcript", DataTable).add_columns("L", "Speaker", "Said")
         self.query_one("#open-items", DataTable).add_columns("#", "Kind", "Owner", "Item", "Due", "From", "Status")
-        self.query_one("#review-table", DataTable).add_columns("#", "What", "Item", "Meeting", "Why")
+        self.query_one("#review-table", DataTable).add_columns("#", "What", "Meeting", "Item")
         self.refresh_all()
         meetings = self.ledger.store.meetings()
         if meetings:
@@ -137,8 +140,7 @@ class LedgerApp(App):
         table.clear()
         for r in self.ledger.store.reviews():
             what = f"new {KIND[r['item_kind']]}" if r["kind"] == "item" else "update"
-            table.add_row(str(r["id"]), what, r["item_text"], f"{r['held_on']} {r['meeting_title']}", r["reason"],
-                          key=str(r["id"]))
+            table.add_row(str(r["id"]), what, f"{r['held_on']} {r['meeting_title']}", r["item_text"], key=str(r["id"]))
         if not table.row_count:
             self.query_one("#review-detail", Static).update(Text("Nothing to review.", style=MUTED))
 
