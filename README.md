@@ -26,9 +26,9 @@ meeting-ledger splits the work three ways:
 
 | | Who | What |
 |---|---|---|
-| ✍️ **Extracts** | Claude (`claude-opus-5-5`) | Reads the numbered transcript and lists every decision, action, commitment and open question, each citing the lines that support it. Also proposes which earlier open items this meeting moved on. |
-| ⚖️ **Checks** | A *System One* decision model: [Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev), or [Kev](https://github.com/jaredpalmer/kev), its open-source twin running on your own machine | Typed, calibrated answers: do the cited lines really support this item? Did the owner actually agree to it? Independently of Claude, what do these new lines say about that earlier item: done, blocked, dropped, contradicted? |
-| ✅ **Reviews** | You | Anything the two models disagree on, or the checker isn't confident about, waits for you instead of being guessed. |
+| **Extracts** | Claude (`claude-opus-5-5`) | Reads the numbered transcript and lists every decision, action, commitment and open question, each citing the lines that support it. Also proposes which earlier open items this meeting moved on. |
+| **Checks** | A *System One* decision model: [Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev), or [Kev](https://github.com/jaredpalmer/kev), its open-source twin running on your own machine | Typed, calibrated answers: do the cited lines really support this item? Did the owner actually agree to it? Independently of Claude, what do these new lines say about that earlier item: done, blocked, dropped, contradicted? |
+| **Reviews** | You | Anything the two models disagree on, or the checker isn't confident about, waits for you instead of being guessed. |
 
 There's also a plain check that needs no model at all: every quote must literally appear in the
 lines it cites, or the item is flagged.
