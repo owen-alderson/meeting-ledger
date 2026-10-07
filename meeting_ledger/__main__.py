@@ -229,10 +229,12 @@ def cmd_export(args, settings: Settings) -> int:
 
 
 def cmd_mcp(args, settings: Settings) -> int:
-    try:
-        from .mcp_server import build_server
-    except ImportError:
+    import importlib.util
+
+    if importlib.util.find_spec("mcp") is None:
         return fail("The MCP server needs the mcp extra: pipx install 'meeting-ledger[mcp]'")
+    from .mcp_server import build_server
+
     server = build_server(make_ledger(settings))
     server.run("stdio")
     return 0

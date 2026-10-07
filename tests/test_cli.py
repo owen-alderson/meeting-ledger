@@ -186,3 +186,12 @@ def test_add_audio_file_is_transcribed_first(fake_pipeline, env, monkeypatch, ca
     assert cli.main(["add", "call.m4a", "--date", "2026-03-05"]) == 0
     assert seen[0].name == "call.m4a" and "Transcribing call.m4a" in capsys.readouterr().err
     assert Store(db).segments(1)[0].end == 2.5
+
+
+def test_mcp_without_the_extra_explains_how_to_install(env, monkeypatch, capsys):
+    import importlib.util
+
+    real = importlib.util.find_spec
+    monkeypatch.setattr(importlib.util, "find_spec", lambda name, *a: None if name == "mcp" else real(name, *a))
+    assert cli.main(["mcp"]) == 1
+    assert "meeting-ledger[mcp]" in capsys.readouterr().err
